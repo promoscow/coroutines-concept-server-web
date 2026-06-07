@@ -1,0 +1,19 @@
+spring:
+  application:
+    name: coroutines-concept-server-web
+server:
+  port: 8011
+app:
+  service-prefix: server-web
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,prometheus
+  metrics:
+    export:
+      prometheus:
+        enabled: true
+    distribution:
+      percentiles-histogram:
+        "[http.server.requests]": true

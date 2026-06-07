@@ -1,0 +1,31 @@
+services:
+  io:
+    build: ../coroutines-concept-io
+    container_name: io
+    ports:
+      - "8021:8021"
+    networks:
+      - coroutines-concept-network
+  server:
+    build: .
+    container_name: server
+    ports:
+      - "8011:8011"
+    depends_on:
+      - io
+    networks:
+      - coroutines-concept-network
+  client:
+    build: ../coroutines-concept-client
+    container_name: client
+    ports:
+      - "8001:8001"
+    environment:
+      - APP_REQUESTS_PER_SECOND=1000
+    depends_on:
+      - server
+    networks:
+      - coroutines-concept-network
+networks:
+  coroutines-concept-network:
+    driver: bridge
