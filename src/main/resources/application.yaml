@@ -1,4 +1,6 @@
 spring:
+  profiles:
+    default: docker
   application:
     name: coroutines-concept-server-web
 server:
