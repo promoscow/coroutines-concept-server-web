@@ -1,6 +1,8 @@
 package ru.chernyshoff.server.web.service
 
+import ru.chernyshoff.server.web.domain.Trace
+
 interface IoService {
 
-    fun trace(traceId: String): String
+    fun trace(trace: Trace): Trace
 }
