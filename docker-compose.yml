@@ -15,6 +15,11 @@ services:
       - io
     networks:
       - coroutines-concept-network
+    deploy:
+      resources:
+        limits:
+          cpus: "1.0"
+          memory: 1G
   client:
     build: ../coroutines-concept-client
     container_name: client
