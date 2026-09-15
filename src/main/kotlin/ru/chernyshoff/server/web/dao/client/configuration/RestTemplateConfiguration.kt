@@ -5,8 +5,12 @@ import org.springframework.context.annotation.Configuration
 import org.springframework.web.client.RestTemplate
 
 @Configuration
-class RestTemplateConfiguration {
+class RestTemplateConfiguration(
+    private val metricsInterceptor: RestTemplateMetricsInterceptor
+) {
 
     @Bean
-    fun restTemplate(): RestTemplate = RestTemplate()
+    fun restTemplate(): RestTemplate = RestTemplate().apply {
+        interceptors.add(metricsInterceptor)
+    }
 }

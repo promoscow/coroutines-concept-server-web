@@ -3,6 +3,9 @@ spring:
     default: docker
   application:
     name: coroutines-concept-server-web
+  threads:
+    virtual:
+      enabled: true
 server:
   port: 8011
 app:
