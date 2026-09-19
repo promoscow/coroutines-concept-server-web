@@ -6,29 +6,45 @@ services:
       - "8021:8021"
     networks:
       - coroutines-concept-network
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8021/actuator/health"]
+      interval: 2s
+      timeout: 3s
+      retries: 20
+      start_period: 10s
   server:
     build: .
     container_name: server
     ports:
       - "8011:8011"
+    environment:
+      - APP_IO_HOST=http://io:8021
     depends_on:
-      - io
+      io:
+        condition: service_healthy
     networks:
       - coroutines-concept-network
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8011/actuator/health"]
+      interval: 2s
+      timeout: 3s
+      retries: 20
+      start_period: 15s
     deploy:
       resources:
         limits:
-          cpus: "1.0"
-          memory: 1G
+          cpus: "8.0"
+          memory: 4G
   client:
     build: ../coroutines-concept-client
     container_name: client
     ports:
       - "8001:8001"
     environment:
-      - APP_REQUESTS_PER_SECOND=1000
+      - APP_REQUESTS_PER_SECOND=1400
     depends_on:
-      - server
+      server:
+        condition: service_healthy
     networks:
       - coroutines-concept-network
 networks:
